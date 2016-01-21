@@ -1,0 +1,33 @@
+﻿<div ng-controller="Controller">
+    <br />
+    <h2>Ara</h2>
+    <input class="input-lg" type="text" ng-model="searchText" /> <button class="btn btn-danger" ng-click="DeleteBookList()">Kayıtları Sil</button>
+    <br /><br />
+    <button class="btn btn-info" ng-click="SetRecordVisible()">Yeni Kayıt</button>
+    <br /><br />
+    <div ng-show="isRecordVisible">
+        <form ng-submit="Save()">
+            ADI : <input class="input-sm" type="text" ng-model="name" />
+            YILI : <input class="input-sm" type="text" ng-model="year" />
+            <button class="btn btn-success">KAYDET</button>
+        </form>
+    </div>
+
+    <br />
+    <table class="table">
+        <tr>
+            <th>SEÇ <input type="checkbox" ng-click="SelectAll()" ng-model="isSelectAll" /> </th>
+            <th>ID</th>
+            <th>ADI</th>
+            <th>YILI</th>
+        </tr>
+
+        <tr ng-repeat="book in BookList | filter:searchText">
+            <td><input type="checkbox" ng-model="book.IsDeleted" ng-checked="isSelectAll" /></td>
+            <td>{{book.ID}}</td>
+            <td>{{book.Name}}</td>
+            <td>{{book.Year}}</td>
+        </tr>
+
+    </table>
+</div>
