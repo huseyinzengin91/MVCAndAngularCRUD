@@ -23,7 +23,7 @@
         </tr>
 
         <tr ng-repeat="book in BookList | filter:searchText">
-            <td><input type="checkbox" ng-model="book.IsDeleted" ng-checked="isSelectAll" /></td>
+            <td><input type="checkbox" ng-model="book.IsSelected" ng-checked="isSelectAll" /></td>
             <td>{{book.ID}}</td>
             <td>{{book.Name}}</td>
             <td>{{book.Year}}</td>

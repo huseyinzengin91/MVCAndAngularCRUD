@@ -4,11 +4,20 @@
     app.controller("Controller", function ($scope, $http) {
 
         //Get Book List
-        $http.get("/Home/GetBookList").success(function (data) {
-            $scope.BookList = data;
-        }).error(function (ex) {
-            console.log(ex);
-        });
+        
+        
+
+        $scope.GetBookList = function () {
+
+            $http.get("/Home/GetBookList").success(function (data) {
+                $scope.BookList = data;
+            }).error(function (ex) {
+                console.log(ex);
+            });
+
+        }
+
+        $scope.GetBookList();
 
         $scope.isRecordVisible = false;
 
@@ -17,13 +26,13 @@
         $scope.SelectAll = function () {
             if ($scope.isSelectAll) {
                 angular.forEach($scope.BookList, function (book) {
-                    book.IsDeleted = true;
+                    book.IsSelected = true;
                     console.log(book);
                 });
             }
             else {
                 angular.forEach($scope.BookList, function (book) {
-                    book.IsDeleted = false;
+                    book.IsSelected = false;
                 });
             }
         }
@@ -40,6 +49,8 @@
             $http.post("/Home/NewBook", newBook).success(function (data) {
                 $scope.lastID = data.ID;
                 console.log("Kayıt Başarıyla Eklendi!")
+                $scope.isRecordVisible = false;
+                $scope.GetBookList();
             }).error(function (ex) {
                 console.log(ex);
             });
@@ -52,7 +63,7 @@
             var list = [];
 
             angular.forEach($scope.BookList, function (book) {
-                if (book.IsDeleted) {
+                if (book.IsSelected) {
                     deleteBooks.push(book.ID);
                 } else {
                     list.push(book);
@@ -62,10 +73,10 @@
 
             if (deleteBooks != null && deleteBooks.length > 0) {
                 $http.post("/Home/DeleteBooks", deleteBooks).success(function () {
-                                console.log("Kayıtlar Başarı ile silindi!")
-                            }).error(function (ex) {
-                            console.log(ex);
-                            });
+                    console.log("Kayıtlar Başarı ile silindi!");
+                }).error(function (ex) {
+                console.log(ex);
+                });
             }
 
             $scope.BookList = [];
